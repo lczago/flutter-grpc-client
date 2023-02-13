@@ -36,12 +36,11 @@ class _BodyState extends State<Body> {
   Future<bool> grpc() async {
     final stub = LoginServiceClient(channel);
     var response = await stub.login(LoginRequest()..name = controller.text);
+    await channel.shutdown();
     if (!response.authenticated) {
-      await channel.shutdown();
       return false;
     }
 
-    await channel.shutdown();
     return true;
   }
 
